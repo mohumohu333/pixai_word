@@ -52,7 +52,7 @@ border-radius:6px;
 <div id="words"></div>
 
 <button onclick="copyWords()">選択した英語をコピー</button>
-<button onclick="toggleEditMode()">編集モード</button>
+<button id="editButton" onclick="toggleEditMode()">編集モード</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -184,10 +184,15 @@ function toggleEditMode(){
 
   editMode = !editMode
 
-  if(editMode)
-    alert("編集モードON")
-  else
-    alert("編集モードOFF")
+  const btn = document.getElementById("editButton")
+
+  if(editMode){
+    document.body.style.background = "#fff3cd"
+    btn.textContent = "編集終了"
+  }else{
+    document.body.style.background = ""
+    btn.textContent = "編集モード"
+  }
 
   loadWords()
 
@@ -211,6 +216,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
