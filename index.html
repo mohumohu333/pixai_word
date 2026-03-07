@@ -75,6 +75,26 @@ const ja = document.getElementById("ja").value
 const en = document.getElementById("en").value
 const genre = document.getElementById("genre").value
 
+function saveGenreState(genre, isOpen) {
+
+  let state = JSON.parse(localStorage.getItem("genreState") || "{}")
+
+  state[genre] = isOpen
+
+  localStorage.setItem("genreState", JSON.stringify(state))
+
+}
+
+
+function loadGenreState(genre) {
+
+  let state = JSON.parse(localStorage.getItem("genreState") || "{}")
+
+  return state[genre] || false
+
+}
+
+
 if(!ja || !en || !genre) return
 
 await client
@@ -108,46 +128,44 @@ for (const genre in grouped) {
   const div = document.createElement("div")
   div.className = "genre"
 
+  const list = document.createElement("div")
+
+  const isOpen = loadGenreState(genre)
+
+  list.style.display = isOpen ? "block" : "none"
+
   const title = document.createElement("h3")
-  title.textContent = "▼ " + genre
   title.style.cursor = "pointer"
 
-  const list = document.createElement("div")
-  list.style.display = "none"   // ← 最初は閉じる
+  title.textContent = (isOpen ? "▼ " : "▶ ") + genre
 
   title.onclick = () => {
-    if (list.style.display === "none") {
-      list.style.display = "block"
-      title.textContent = "▼ " + genre
-    } else {
+
+    const nowOpen = list.style.display !== "none"
+
+    if (nowOpen) {
+
       list.style.display = "none"
       title.textContent = "▶ " + genre
+      saveGenreState(genre, false)
+
+    } else {
+
+      list.style.display = "block"
+      title.textContent = "▼ " + genre
+      saveGenreState(genre, true)
+
     }
+
   }
 
   grouped[genre].forEach(word => {
 
-      const wrapper = document.createElement("div")
-      
-      const btn = document.createElement("button")
-      btn.textContent = word.ja
-      btn.onclick = ()=>toggle(btn,word.en)
-      
-      wrapper.appendChild(btn)
-      
-      if(editMode){
-      
-        const del = document.createElement("button")
-        del.textContent = "❌"
-        del.style.marginLeft = "5px"
-      
-        del.onclick = ()=>deleteWord(word.id)
-      
-        wrapper.appendChild(del)
-      
-      }
-      
-      list.appendChild(wrapper)
+    const btn = document.createElement("button")
+    btn.textContent = word.ja
+    btn.onclick = () => toggle(btn, word.en)
+
+    list.appendChild(btn)
 
   })
 
@@ -211,11 +229,13 @@ async function deleteWord(id){
 
 }
 
+
 </script>
 
 </body>
 
 </html>
+
 
 
 
