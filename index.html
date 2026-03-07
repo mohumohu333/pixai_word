@@ -69,12 +69,6 @@ let editMode = false
 
 loadWords()
 
-async function addWord(){
-
-const ja = document.getElementById("ja").value
-const en = document.getElementById("en").value
-const genre = document.getElementById("genre").value
-
 function saveGenreState(genre, isOpen) {
 
   let state = JSON.parse(localStorage.getItem("genreState") || "{}")
@@ -93,6 +87,15 @@ function loadGenreState(genre) {
   return state[genre] || false
 
 }
+
+  
+async function addWord(){
+
+const ja = document.getElementById("ja").value
+const en = document.getElementById("en").value
+const genre = document.getElementById("genre").value
+
+
 
 
 if(!ja || !en || !genre) return
@@ -235,6 +238,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
