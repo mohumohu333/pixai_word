@@ -162,15 +162,31 @@ for (const genre in grouped) {
 
   }
 
-  grouped[genre].forEach(word => {
+grouped[genre].forEach(word => {
 
-    const btn = document.createElement("button")
-    btn.textContent = word.ja
-    btn.onclick = () => toggle(btn, word.en)
+  const wrapper = document.createElement("div")
 
-    list.appendChild(btn)
+  const btn = document.createElement("button")
+  btn.textContent = word.ja
+  btn.onclick = () => toggle(btn, word.en)
 
-  })
+  wrapper.appendChild(btn)
+
+  if(editMode){
+
+    const del = document.createElement("button")
+    del.textContent = "❌"
+    del.style.marginLeft = "5px"
+
+    del.onclick = () => deleteWord(word.id)
+
+    wrapper.appendChild(del)
+
+  }
+
+  list.appendChild(wrapper)
+
+})
 
   div.appendChild(title)
   div.appendChild(list)
@@ -238,6 +254,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
