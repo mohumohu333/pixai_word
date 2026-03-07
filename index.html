@@ -50,7 +50,9 @@ padding:6px;
 
 <input id="ja" placeholder="日本語">
 <input id="en" placeholder="英語">
-<input id="genre" placeholder="ジャンル">
+<input id="genre" list="genreList" placeholder="ジャンル">
+
+<datalist id="genreList"></datalist>
 
 <button onclick="addWord()">登録</button>
 
@@ -117,6 +119,8 @@ location.reload()
 
 async function loadWords(){
 
+const genreSet = new Set()
+
 const { data } = await client
 .from("words")
 .select("*")
@@ -125,11 +129,25 @@ const container = document.getElementById("words")
 container.innerHTML = ""
 
 let grouped = {}
-
+  
 data.forEach(w=>{
+
+genreSet.add(w.genre)
 
 if(!grouped[w.genre]) grouped[w.genre] = []
 grouped[w.genre].push(w)
+
+})
+
+const datalist = document.getElementById("genreList")
+datalist.innerHTML = ""
+
+genreSet.forEach(g => {
+
+  const option = document.createElement("option")
+  option.value = g
+
+  datalist.appendChild(option)
 
 })
 
@@ -261,6 +279,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
