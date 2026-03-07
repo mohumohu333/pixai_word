@@ -28,6 +28,12 @@ color:white;
 .genre{
 margin-top:20px;
 }
+
+.genre h3{
+background:#eee;
+padding:8px;
+border-radius:6px;
+}
 </style>
 
 </head>
@@ -95,28 +101,40 @@ grouped[w.genre].push(w)
 
 })
 
-for(const genre in grouped){
+for (const genre in grouped) {
 
-const div = document.createElement("div")
-div.className="genre"
+  const div = document.createElement("div")
+  div.className = "genre"
 
-const title = document.createElement("h3")
-title.textContent = genre
+  const title = document.createElement("h3")
+  title.textContent = "▼ " + genre
+  title.style.cursor = "pointer"
 
-div.appendChild(title)
+  const list = document.createElement("div")
 
-grouped[genre].forEach(word=>{
+  title.onclick = () => {
+    if (list.style.display === "none") {
+      list.style.display = "block"
+      title.textContent = "▼ " + genre
+    } else {
+      list.style.display = "none"
+      title.textContent = "▶ " + genre
+    }
+  }
 
-const btn = document.createElement("button")
-btn.textContent = word.ja
+  grouped[genre].forEach(word => {
 
-btn.onclick = ()=>toggle(btn,word.en)
+    const btn = document.createElement("button")
+    btn.textContent = word.ja
+    btn.onclick = () => toggle(btn, word.en)
 
-div.appendChild(btn)
+    list.appendChild(btn)
 
-})
+  })
 
-container.appendChild(div)
+  div.appendChild(title)
+  div.appendChild(list)
+  container.appendChild(div)
 
 }
 
@@ -148,4 +166,5 @@ alert("コピーしました:\n"+text)
 </body>
 
 </html>
+
 
