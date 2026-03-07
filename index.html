@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>単語管理</title>
+
+<style>
+body{
+font-family:sans-serif;
+padding:20px;
+}
+
+input{
+margin:5px;
+}
+
+button{
+margin:5px;
+padding:10px;
+}
+
+.selected{
+background:#4caf50;
+color:white;
+}
+
+.genre{
+margin-top:20px;
+}
+</style>
+
+</head>
+<body>
+
+<h2>単語登録</h2>
+
+<input id="ja" placeholder="日本語">
+<input id="en" placeholder="英語">
+<input id="genre" placeholder="ジャンル">
+
+<button onclick="addWord()">登録</button>
+
+<h2>単語一覧</h2>
+
+<div id="words"></div>
+
+<button onclick="copyWords()">選択した英語をコピー</button>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+const SUPABASE_URL = "ここにProjectURL"
+const SUPABASE_KEY = "ここにanon key"
+
+const supabase = supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+
+let selected = []
+
+loadWords()
+
+async function addWord(){
+
+const ja = document.getElementById("ja").value
+const en = document.getElementById("en").value
+const genre = document.getElementById("genre").value
+
+if(!ja || !en || !genre) return
+
+await supabase
+.from("words")
+.insert([{ja,en,genre}])
+
+location.reload()
+
+}
+
+async function loadWords(){
+
+const { data } = await supabase
+.from("words")
+.select("*")
+
+const container = document.getElementById("words")
+container.innerHTML = ""
+
+let grouped = {}
+
+data.forEach(w=>{
+
+if(!grouped[w.genre]) grouped[w.genre] = []
+grouped[w.genre].push(w)
+
+})
+
+for(const genre in grouped){
+
+const div = document.createElement("div")
+div.className="genre"
+
+const title = document.createElement("h3")
+title.textContent = genre
+
+div.appendChild(title)
+
+grouped[genre].forEach(word=>{
+
+const btn = document.createElement("button")
+btn.textContent = word.ja
+
+btn.onclick = ()=>toggle(btn,word.en)
+
+div.appendChild(btn)
+
+})
+
+container.appendChild(div)
+
+}
+
+}
+
+function toggle(btn,en){
+
+btn.classList.toggle("selected")
+
+if(selected.includes(en))
+selected = selected.filter(e=>e!==en)
+else
+selected.push(en)
+
+}
+
+function copyWords(){
+
+const text = selected.join(",")
+
+navigator.clipboard.writeText(text)
+
+alert("コピーしました:\n"+text)
+
+}
+
+</script>
+
+</body>
+</html>
