@@ -52,6 +52,7 @@ border-radius:6px;
 <div id="words"></div>
 
 <button onclick="copyWords()">選択した英語をコピー</button>
+<button onclick="toggleEditMode()">編集モード</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -64,6 +65,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const client = supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 
 let selected = []
+let editMode = false
 
 loadWords()
 
@@ -125,11 +127,27 @@ for (const genre in grouped) {
 
   grouped[genre].forEach(word => {
 
-    const btn = document.createElement("button")
-    btn.textContent = word.ja
-    btn.onclick = () => toggle(btn, word.en)
-
-    list.appendChild(btn)
+      const wrapper = document.createElement("div")
+      
+      const btn = document.createElement("button")
+      btn.textContent = word.ja
+      btn.onclick = ()=>toggle(btn,word.en)
+      
+      wrapper.appendChild(btn)
+      
+      if(editMode){
+      
+        const del = document.createElement("button")
+        del.textContent = "❌"
+        del.style.marginLeft = "5px"
+      
+        del.onclick = ()=>deleteWord(word.id)
+      
+        wrapper.appendChild(del)
+      
+      }
+      
+      list.appendChild(wrapper)
 
   })
 
@@ -162,11 +180,38 @@ alert("コピーしました:\n"+text)
 
 }
 
+function toggleEditMode(){
+
+  editMode = !editMode
+
+  if(editMode)
+    alert("編集モードON")
+  else
+    alert("編集モードOFF")
+
+  loadWords()
+
+}
+
+async function deleteWord(id){
+
+  if(!confirm("削除しますか？")) return
+
+  await client
+  .from("words")
+  .delete()
+  .eq("id", id)
+
+  loadWords()
+
+}
+
 </script>
 
 </body>
 
 </html>
+
 
 
 
