@@ -55,7 +55,7 @@ margin-top:20px;
 const SUPABASE_URL = "https://zudneeyfdrzxuerddtpy.supabase.co"
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1ZG5lZXlmZHJ6eHVlcmRkdHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MjY2MDAsImV4cCI6MjA4ODMwMjYwMH0.q7UG4H1JgB0bfZAAp9j-QuFTiKNMIylOUGzyplWouc0"
 
-const supabase = supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+const client = supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 
 let selected = []
 
@@ -69,7 +69,7 @@ const genre = document.getElementById("genre").value
 
 if(!ja || !en || !genre) return
 
-await supabase
+await client
 .from("words")
 .insert([{ja,en,genre}])
 
@@ -79,7 +79,7 @@ location.reload()
 
 async function loadWords(){
 
-const { data } = await supabase
+const { data } = await client
 .from("words")
 .select("*")
 
@@ -148,3 +148,4 @@ alert("コピーしました:\n"+text)
 </body>
 
 </html>
+
