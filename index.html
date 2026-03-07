@@ -111,6 +111,7 @@ for (const genre in grouped) {
   title.style.cursor = "pointer"
 
   const list = document.createElement("div")
+  list.style.display = "none"   // ← 最初は閉じる
 
   title.onclick = () => {
     if (list.style.display === "none") {
@@ -166,5 +167,6 @@ alert("コピーしました:\n"+text)
 </body>
 
 </html>
+
 
 
