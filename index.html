@@ -41,6 +41,18 @@ color:white;
 border:none;
 padding:6px;
 }
+
+.wordList{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:10px;
+}
+
+.wordItem{
+display:flex;
+align-items:center;
+}
 </style>
 
 </head>
@@ -157,6 +169,7 @@ for (const genre in grouped) {
   div.className = "genre"
 
   const list = document.createElement("div")
+  list.className = "wordList"
 
   const isOpen = loadGenreState(genre)
 
@@ -190,6 +203,7 @@ for (const genre in grouped) {
 grouped[genre].forEach(word => {
 
   const wrapper = document.createElement("div")
+  wrapper.className = "wordItem"
 
   const btn = document.createElement("button")
   btn.textContent = word.ja
@@ -279,6 +293,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
