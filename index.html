@@ -173,7 +173,7 @@ for (const genre in grouped) {
 
   const isOpen = loadGenreState(genre)
 
-  list.style.display = isOpen ? "block" : "none"
+  list.style.display = isOpen ? "grid" : "none"
 
   const title = document.createElement("h3")
   title.style.cursor = "pointer"
@@ -192,7 +192,7 @@ for (const genre in grouped) {
 
     } else {
 
-      list.style.display = "block"
+      list.style.display = "grid"
       title.textContent = "▼ " + genre
       saveGenreState(genre, true)
 
@@ -293,6 +293,7 @@ async function deleteWord(id){
 </body>
 
 </html>
+
 
 
 
