@@ -74,6 +74,7 @@ align-items:center;
 
 <button onclick="copyWords()">選択した英語をコピー</button>
 <button id="editButton" onclick="toggleEditMode()">編集モード</button>
+<button onclick="closeAllGenres()">ジャンルをすべて閉じる</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -287,12 +288,29 @@ async function deleteWord(id){
 
 }
 
+function closeAllGenres(){
+
+  const lists = document.querySelectorAll(".wordList")
+  const titles = document.querySelectorAll(".genre h3")
+
+  lists.forEach(list=>{
+    list.style.display = "none"
+  })
+
+  titles.forEach(title=>{
+    const genre = title.textContent.replace("▼ ","").replace("▶ ","")
+    title.textContent = "▶ " + genre
+    saveGenreState(genre,false)
+  })
+
+}
 
 </script>
 
 </body>
 
 </html>
+
 
 
 
