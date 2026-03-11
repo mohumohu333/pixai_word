@@ -255,6 +255,13 @@ navigator.clipboard.writeText(text)
 
 alert("コピーしました:\n"+text)
 
+// 選択リセット
+selected = []
+
+document.querySelectorAll(".selected").forEach(btn=>{
+  btn.classList.remove("selected")
+})
+
 }
 
 function toggleEditMode(){
@@ -310,6 +317,7 @@ function closeAllGenres(){
 </body>
 
 </html>
+
 
 
 
