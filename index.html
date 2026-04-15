@@ -53,6 +53,26 @@ margin-top:10px;
 display:flex;
 align-items:center;
 }
+
+.fixedButtons{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#fff;
+padding:10px;
+display:flex;
+justify-content:space-around;
+box-shadow:0 -2px 5px rgba(0,0,0,0.1);
+z-index:1000;
+}
+
+.fixedButtons button{
+flex:1;
+margin:0 5px;
+padding:12px;
+font-size:16px;
+}
 </style>
 
 </head>
@@ -72,9 +92,11 @@ align-items:center;
 
 <div id="words"></div>
 
-<button onclick="copyWords()">選択した英語をコピー</button>
-<button id="editButton" onclick="toggleEditMode()">編集モード</button>
-<button onclick="closeAllGenres()">ジャンルをすべて閉じる</button>
+<div class="fixedButtons">
+  <button onclick="copyWords()">コピー</button>
+  <button id="editButton" onclick="toggleEditMode()">編集</button>
+  <button onclick="closeAllGenres()">閉じる</button>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
